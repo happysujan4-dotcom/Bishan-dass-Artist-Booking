@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artist Booking</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+    color:#222;
+}
+header{
+    background:#111;
+    color:white;
+    text-align:center;
+    padding:25px;
+}
+.container{
+    max-width:800px;
+    margin:25px auto;
+    padding:20px;
+}
+.card{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:14px;
+    box-shadow:0 4px 15px #0001;
+}
+h2{text-align:center}
+label{
+    display:block;
+    margin-top:15px;
+    font-weight:bold;
+}
+input,select,textarea{
+    width:100%;
+    padding:12px;
+    margin-top:6px;
+    box-sizing:border-box;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+textarea{height:90px}
+button{
+    width:100%;
+    padding:13px;
+    margin-top:18px;
+    border:0;
+    border-radius:8px;
+    background:#6547e8;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+button:hover{opacity:.9}
+.booking{
+    border:1px solid #ddd;
+    padding:15px;
+    margin-top:15px;
+    border-radius:10px;
+}
+.approve{background:green}
+.reject{background:#d33}
+.status{
+    font-weight:bold;
+    padding:5px 10px;
+    border-radius:6px;
+    display:inline-block;
+}
+.pending{background:#fff0a8}
+.confirmed{background:#b9f6c3}
+.rejected{background:#ffc0c0}
+.notavailable{background:#ddd}
+.admin-title{
+    text-align:center;
+    margin-top:10px;
+}
+footer{
+    background:#111;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎤 Artist Booking</h1>
+    <p>Book an Artist for Your Special Event</p>
+</header>
+
+<div class="container">
+
+<!-- CUSTOMER BOOKING -->
+
+<div class="card">
+
+<h2>📋 Booking Request</h2>
+
+<label>Event Type</label>
+<select id="eventType">
+    <option>Wedding</option>
+    <option>Jagran</option>
+    <option>Birthday Party</option>
+    <option>Private Party</option>
+    <option>Celebration</option>
+    <option>Other Event</option>
+</select>
+
+<label>Booking Package</label>
+<select id="package">
+    <option>Only Singer</option>
+    <option>Only Musician</option>
+    <option>Only Music System</option>
+    <option>Singer + Musician</option>
+    <option>Singer + Music System</option>
+    <option>Musician + Music System</option>
+    <option>Complete Package</option>
+</select>
+
+<label>Event Date</label>
+<input type="date" id="date">
+
+<label>Show Time</label>
+<input type="time" id="time">
+
+<label>Event Location</label>
+<input type="text" id="location"
+placeholder="Example: Jammu, Himachal, Kashmir">
+
+<label>Show Duration</label>
+<select id="duration">
+    <option>1 Hour</option>
+    <option>2 Hours</option>
+    <option>3 Hours</option>
+    <option>4 Hours</option>
+    <option>More than 4 Hours</option>
+</select>
+
+<label>Your Name</label>
+<input type="text" id="name" placeholder="Enter your name">
+
+<label>Mobile Number</label>
+<input type="tel" id="phone" placeholder="Enter mobile number">
+
+<label>Additional Information</label>
+<textarea id="message"
+placeholder="Tell us about your event"></textarea>
+
+<button onclick="sendRequest()">
+    📩 Send Booking Request
+</button>
+
+</div>
+
+
+<!-- ADMIN -->
+
+<div class="card">
+
+<h2 class="admin-title">🔐 Admin Schedule</h2>
+
+<p>
+This section is for the artist/admin to manage booking requests.
+</p>
+
+<button onclick="showRequests()">
+    📋 View Booking Requests
+</button>
+
+<div id="requests"></div>
+
+</div>
+
+</div>
+
+
+<footer>
+<p>© 2026 Artist Booking</p>
+</footer>
+
+
+<script>
+
+let bookings =
+JSON.parse(localStorage.getItem("artistBookings")) || [];
+
+
+/* CUSTOMER SEND REQUEST */
+
+function sendRequest(){
+
+    let name =
+    document.getElementById("name").value;
+
+    let phone =
+    document.getElementById("phone").value;
+
+    let date =
+    document.getElementById("date").value;
+
+    let time =
+    document.getElementById("time").value;
+
+    let location =
+    document.getElementById("location").value;
+
+    if(name === "" || phone === "" || date === "" || location === ""){
+
+        alert("Please fill Name, Mobile, Date and Location.");
+
+        return;
+    }
+
+    let booking = {
+
+        id: Date.now(),
+
+        name:name,
+
+        phone:phone,
+
+        event:
+        document.getElementById("eventType").value,
+
+        package:
+        document.getElementById("package").value,
+
+        date:date,
+
+        time:time,
+
+        location:location,
+
+        duration:
+        document.getElementById("duration").value,
+
+        message:
+        document.getElementById("message").value,
+
+        status:"Pending"
+
+    };
+
+    bookings.push(booking);
+
+    localStorage.setItem(
+        "artistBookings",
+        JSON.stringify(bookings)
+    );
+
+    alert(
+        "Booking request sent successfully! 🎉\n\n" +
+        "Your request is Pending approval."
+    );
+
+    document.querySelector("form");
+
+    showRequests();
+}
+
+
+/* ADMIN REQUESTS */
+
+function showRequests(){
+
+    let box =
+    document.getElementById("requests");
+
+    box.innerHTML = "";
+
+    if(bookings.length === 0){
+
+        box.innerHTML =
+        "<p>No booking requests yet.</p>";
+
+        return;
+    }
+
+    bookings.forEach(function(b){
+
+        let div =
+        document.createElement("div");
+
+        div.className = "booking";
+
+        div.innerHTML = `
+
+        <h3>🎤 ${b.name}</h3>
+
+        <p><b>Event:</b> ${b.event}</p>
+
+        <p><b>Package:</b> ${b.package}</p>
+
+        <p><b>Date:</b> ${b.date}</p>
+
+        <p><b>Time:</b> ${b.time}</p>
+
+        <p><b>Duration:</b> ${b.duration}</p>
+
+        <p><b>Location:</b> ${b.location}</p>
+
+        <p><b>Mobile:</b> ${b.phone}</p>
+
+        <p>
+        <b>Status:</b>
+        <span class="status
+        ${getStatusClass(b.status)}">
+        ${b.status}
+        </span>
+        </p>
+
+        <button class="approve"
+        onclick="approveBooking(${b.id})">
+        ✅ Approve Booking
+        </button>
+
+        <button class="reject"
+        onclick="rejectBooking(${b.id})">
+        ❌ Reject Booking
+        </button>
+
+        `;
+
+        box.appendChild(div);
+
+    });
+}
+
+
+/* APPROVE */
+
+function approveBooking(id){
+
+    let booking =
+    bookings.find(b => b.id === id);
+
+    if(!booking) return;
+
+    booking.status = "Confirmed";
+
+    localStorage.setItem(
+        "artistBookings",
+        JSON.stringify(bookings)
+    );
+
+    showRequests();
+
+    alert("Booking Approved! ✅");
+}
+
+
+/* REJECT */
+
+function rejectBooking(id){
+
+    let booking =
+    bookings.find(b => b.id === id);
+
+    if(!booking) return;
+
+    booking.status = "Rejected";
+
+    localStorage.setItem(
+        "artistBookings",
+        JSON.stringify(bookings)
+    );
+
+    showRequests();
+
+    alert("Booking Rejected.");
+}
+
+
+/* STATUS STYLE */
+
+function getStatusClass(status){
+
+    if(status === "Confirmed")
+        return "confirmed";
+
+    if(status === "Rejected")
+        return "rejected";
+
+    return "pending";
+}
+
+</script>
+
+</body>
+</html>
