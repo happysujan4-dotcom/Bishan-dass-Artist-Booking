@@ -3,87 +3,399 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Artist Booking</title>
+<title>Live Music 🎵 Booking</title>
 
 <style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
 body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#f5f5f5;
-    color:#222;
+  background:#09090e;
+  color:#fff;
 }
+
 header{
-    background:#111;
-    color:white;
-    text-align:center;
-    padding:25px;
+  padding:18px 7%;
+  background:#13131b;
+  border-bottom:1px solid #292933;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
-.container{
-    max-width:800px;
-    margin:25px auto;
-    padding:20px;
+
+.logo{
+  font-size:25px;
+  font-weight:bold;
 }
-.card{
-    background:white;
-    padding:20px;
-    margin-bottom:20px;
-    border-radius:14px;
-    box-shadow:0 4px 15px #0001;
+
+.logo span{
+  color:#f5b942;
 }
-h2{text-align:center}
-label{
-    display:block;
-    margin-top:15px;
-    font-weight:bold;
+
+nav a{
+  color:#fff;
+  text-decoration:none;
+  margin-left:20px;
 }
-input,select,textarea{
-    width:100%;
-    padding:12px;
-    margin-top:6px;
-    box-sizing:border-box;
-    border:1px solid #ccc;
-    border-radius:8px;
+
+.hero{
+  text-align:center;
+  padding:80px 20px;
+  background:
+  radial-gradient(circle at top,#493710,#171720 45%,#09090e);
 }
-textarea{height:90px}
-button{
-    width:100%;
-    padding:13px;
-    margin-top:18px;
-    border:0;
-    border-radius:8px;
-    background:#6547e8;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
+
+.hero h1{
+  font-size:48px;
 }
-button:hover{opacity:.9}
-.booking{
-    border:1px solid #ddd;
-    padding:15px;
-    margin-top:15px;
-    border-radius:10px;
+
+.hero h1 span{
+  color:#f5b942;
 }
-.approve{background:green}
-.reject{background:#d33}
+
+.hero p{
+  color:#bbb;
+  margin:15px 0 28px;
+}
+
+.btn{
+  display:inline-block;
+  background:#f5b942;
+  color:#111;
+  padding:14px 26px;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+section{
+  padding:60px 7%;
+}
+
+.title{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.title h2{
+  font-size:32px;
+}
+
+.title p{
+  color:#aaa;
+  margin-top:8px;
+}
+
+.booking-box{
+  max-width:900px;
+  margin:auto;
+  padding:30px;
+  background:#14141c;
+  border:1px solid #292933;
+  border-radius:22px;
+}
+
+.step{
+  display:none;
+}
+
+.step.active{
+  display:block;
+}
+
+.step-title{
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.step-title h2{
+  color:#f5b942;
+  margin-bottom:8px;
+}
+
+.package-grid{
+  display:grid;
+  grid-template-columns:
+  repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
+}
+
+.package{
+  background:#20202a;
+  border:2px solid #333;
+  border-radius:18px;
+  padding:25px;
+  cursor:pointer;
+}
+
+.package:hover{
+  border-color:#888;
+}
+
+.package.selected{
+  border-color:#f5b942;
+  background:#302712;
+}
+
+.package h3{
+  color:#f5b942;
+  margin-bottom:12px;
+}
+
+.package p{
+  color:#bbb;
+  line-height:1.7;
+  margin-top:8px;
+}
+
+.selected-text{
+  display:none;
+  color:#2ecc71;
+  margin-top:15px;
+  font-weight:bold;
+}
+
+.package.selected .selected-text{
+  display:block;
+}
+
+.note{
+  text-align:center;
+  color:#888;
+  font-size:13px;
+  margin-top:18px;
+}
+
+.next-btn,
+.location-btn{
+  width:100%;
+  border:0;
+  padding:14px;
+  margin-top:22px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+  background:#f5b942;
+  color:#111;
+}
+
+.next-btn:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+}
+
+.location-result{
+  margin-top:25px;
+  padding:22px;
+  background:#20202a;
+  border-radius:15px;
+  text-align:center;
+  line-height:1.8;
+}
+
+.location-name{
+  color:#2ecc71;
+  font-size:19px;
+  font-weight:bold;
+}
+
+.estimated{
+  color:#f5b942;
+  font-size:30px;
+  font-weight:bold;
+}
+
+.calendar-box{
+  background:#101017;
+  padding:20px;
+  border-radius:18px;
+}
+
+.calendar-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.calendar-head button{
+  background:#f5b942;
+  border:0;
+  padding:9px 16px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+#monthYear{
+  font-size:20px;
+  font-weight:bold;
+}
+
+.weekdays,
+.calendar{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:7px;
+}
+
+.weekdays div{
+  text-align:center;
+  color:#999;
+  padding:8px;
+}
+
+.day{
+  min-height:65px;
+  padding:8px;
+  border-radius:9px;
+  background:#20202a;
+}
+
+.day.available{
+  border:2px solid #2ecc71;
+  cursor:pointer;
+}
+
+.day.pending{
+  border:2px solid #f1c40f;
+  opacity:.6;
+}
+
+.day.booked{
+  border:2px solid #e74c3c;
+  opacity:.5;
+}
+
+.day.selected{
+  border:2px solid #f5b942;
+  background:#403516;
+}
+
 .status{
-    font-weight:bold;
-    padding:5px 10px;
-    border-radius:6px;
-    display:inline-block;
+  display:block;
+  font-size:9px;
+  margin-top:6px;
 }
-.pending{background:#fff0a8}
-.confirmed{background:#b9f6c3}
-.rejected{background:#ffc0c0}
-.notavailable{background:#ddd}
-.admin-title{
-    text-align:center;
-    margin-top:10px;
+
+.legend{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:18px;
 }
+
+.legend span{
+  background:#20202a;
+  padding:7px 12px;
+  border-radius:20px;
+  font-size:13px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  padding:14px;
+  margin:7px 0 15px;
+  background:#20202a;
+  color:white;
+  border:1px solid #333;
+  border-radius:8px;
+}
+
+textarea{
+  min-height:100px;
+}
+
+.review{
+  background:#20202a;
+  padding:22px;
+  border-radius:15px;
+  line-height:2;
+}
+
+.review strong{
+  color:#f5b942;
+}
+
+.final-price{
+  color:#f5b942;
+  font-size:32px;
+  font-weight:bold;
+}
+
+.submit-btn{
+  width:100%;
+  margin-top:22px;
+  padding:16px;
+  border:0;
+  border-radius:10px;
+  background:#2ecc71;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* SUCCESS PAGE */
+
+.success{
+  text-align:center;
+  padding:20px;
+}
+
+.success h2{
+  color:#2ecc71;
+  margin-bottom:15px;
+}
+
+.pending-box{
+  margin:25px 0;
+  padding:18px;
+  background:#302b16;
+  border:1px solid #f1c40f;
+  border-radius:12px;
+}
+
+.whatsapp-btn{
+  display:block;
+  width:100%;
+  margin-top:20px;
+  padding:15px;
+  background:#25D366;
+  color:white;
+  text-decoration:none;
+  border-radius:10px;
+  font-weight:bold;
+}
+
 footer{
-    background:#111;
-    color:white;
-    text-align:center;
-    padding:20px;
+  text-align:center;
+  padding:30px;
+  background:#13131b;
+  color:#777;
+}
+
+@media(max-width:600px){
+
+  .hero h1{
+    font-size:38px;
+  }
+
+  header{
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .day{
+    min-height:55px;
+    font-size:11px;
+  }
 }
 </style>
 </head>
@@ -91,304 +403,1256 @@ footer{
 <body>
 
 <header>
-    <h1>🎤 Artist Booking</h1>
-    <p>Book an Artist for Your Special Event</p>
+
+<div class="logo">
+🎵 Live <span>Music</span> 🎶
+</div>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#booking">Book Now</a>
+</nav>
+
 </header>
 
-<div class="container">
 
-<!-- CUSTOMER BOOKING -->
+<section class="hero" id="home">
 
-<div class="card">
-
-<h2>📋 Booking Request</h2>
-
-<label>Event Type</label>
-<select id="eventType">
-    <option>Wedding</option>
-    <option>Jagran</option>
-    <option>Birthday Party</option>
-    <option>Private Party</option>
-    <option>Celebration</option>
-    <option>Other Event</option>
-</select>
-
-<label>Booking Package</label>
-<select id="package">
-    <option>Only Singer</option>
-    <option>Only Musician</option>
-    <option>Only Music System</option>
-    <option>Singer + Musician</option>
-    <option>Singer + Music System</option>
-    <option>Musician + Music System</option>
-    <option>Complete Package</option>
-</select>
-
-<label>Event Date</label>
-<input type="date" id="date">
-
-<label>Show Time</label>
-<input type="time" id="time">
-
-<label>Event Location</label>
-<input type="text" id="location"
-placeholder="Example: Jammu, Himachal, Kashmir">
-
-<label>Show Duration</label>
-<select id="duration">
-    <option>1 Hour</option>
-    <option>2 Hours</option>
-    <option>3 Hours</option>
-    <option>4 Hours</option>
-    <option>More than 4 Hours</option>
-</select>
-
-<label>Your Name</label>
-<input type="text" id="name" placeholder="Enter your name">
-
-<label>Mobile Number</label>
-<input type="tel" id="phone" placeholder="Enter mobile number">
-
-<label>Additional Information</label>
-<textarea id="message"
-placeholder="Tell us about your event"></textarea>
-
-<button onclick="sendRequest()">
-    📩 Send Booking Request
-</button>
-
-</div>
-
-
-<!-- ADMIN -->
-
-<div class="card">
-
-<h2 class="admin-title">🔐 Admin Schedule</h2>
+<h1>
+🎵 LIVE <span>MUSIC</span> 🎶
+</h1>
 
 <p>
-This section is for the artist/admin to manage booking requests.
+Professional Singer & Live Music Booking
 </p>
 
-<button onclick="showRequests()">
-    📋 View Booking Requests
+<a href="#booking" class="btn">
+Start Booking 🎤
+</a>
+
+</section>
+
+
+<section id="booking">
+
+<div class="title">
+
+<h2>🎶 Book Your Music Artist 🎵</h2>
+
+<p>
+Choose your package and check your estimated price.
+</p>
+
+</div>
+
+
+<div class="booking-box">
+
+
+<!-- STEP 1 -->
+
+<div class="step active" id="step1">
+
+<div class="step-title">
+
+<h2>1. 🎤 Choose Your Package</h2>
+
+<p>What do you need for your event?</p>
+
+</div>
+
+
+<div class="package-grid">
+
+
+<div
+class="package"
+onclick="selectPackage('singer',this)"
+>
+
+<h3>🎤 Only Singer</h3>
+
+<p>
+Professional singer for your event.
+</p>
+
+<p>
+✔ Singer performance<br>
+✔ Professional artist
+</p>
+
+<div class="selected-text">
+✓ Package Selected
+</div>
+
+</div>
+
+
+<div
+class="package"
+onclick="selectPackage('full',this)"
+>
+
+<h3>🎵 Singer + Music Team 🎶</h3>
+
+<p>
+Complete live music setup.
+</p>
+
+<p>
+✔ Singer<br>
+✔ Keyboard<br>
+✔ Harmonium<br>
+✔ Tabla / Dholak<br>
+✔ Sound System<br>
+✔ Music Team
+</p>
+
+<div class="selected-text">
+✓ Package Selected
+</div>
+
+</div>
+
+</div>
+
+
+<div class="note">
+💡 Price will appear only after you allow your location.
+</div>
+
+
+<button
+id="packageNext"
+class="next-btn"
+disabled
+onclick="goLocation()"
+>
+Continue →
 </button>
 
-<div id="requests"></div>
+</div>
+
+
+<!-- STEP 2 -->
+
+<div class="step" id="step2">
+
+<div class="step-title">
+
+<h2>2. 📍 Your Location</h2>
+
+<p>
+Allow location to calculate your estimated price.
+</p>
+
+</div>
+
+
+<button
+class="location-btn"
+onclick="getLocation()"
+>
+📍 Use My Current Location
+</button>
+
+
+<div
+id="locationResult"
+class="location-result"
+>
+Location not detected yet.
+</div>
+
+
+<button
+id="locationNext"
+class="next-btn"
+disabled
+onclick="goCalendar()"
+>
+Continue to Calendar 📅 →
+</button>
+
+</div>
+
+
+<!-- STEP 3 -->
+
+<div class="step" id="step3">
+
+<div class="step-title">
+
+<h2>3. 📅 Select Event Date</h2>
+
+<p>
+Choose an available date.
+</p>
+
+</div>
+
+
+<div class="calendar-box">
+
+<div class="calendar-head">
+
+<button onclick="changeMonth(-1)">
+‹
+</button>
+
+<div id="monthYear"></div>
+
+<button onclick="changeMonth(1)">
+›
+</button>
+
+</div>
+
+
+<div class="weekdays">
+
+<div>Sun</div>
+<div>Mon</div>
+<div>Tue</div>
+<div>Wed</div>
+<div>Thu</div>
+<div>Fri</div>
+<div>Sat</div>
+
+</div>
+
+
+<div
+id="calendar"
+class="calendar"
+></div>
+
+
+<div class="legend">
+
+<span>🟢 Available</span>
+<span>🟡 Pending</span>
+<span>🔴 Booked</span>
 
 </div>
 
 </div>
+
+
+<button
+class="next-btn"
+onclick="goDetails()"
+>
+Continue →
+</button>
+
+</div>
+
+
+<!-- STEP 4 -->
+
+<div class="step" id="step4">
+
+<div class="step-title">
+
+<h2>4. 👤 Your Details</h2>
+
+<p>Enter your event information.</p>
+
+</div>
+
+
+<input
+id="customerName"
+type="text"
+placeholder="Full Name"
+>
+
+
+<input
+id="phone"
+type="tel"
+placeholder="Mobile Number"
+>
+
+
+<input
+id="eventAddress"
+type="text"
+placeholder="Event / Venue Address"
+>
+
+
+<select id="duration">
+
+<option value="">
+Select Event Duration
+</option>
+
+<option value="1–4 Hours">
+1–4 Hours
+</option>
+
+<option value="Full Night">
+Full Night
+</option>
+
+</select>
+
+
+<textarea
+id="message"
+placeholder="Additional message (optional)"
+></textarea>
+
+
+<button
+class="next-btn"
+onclick="goReview()"
+>
+Review Booking →
+</button>
+
+</div>
+
+
+<!-- STEP 5 -->
+
+<div class="step" id="step5">
+
+<div class="step-title">
+
+<h2>5. 📋 Booking Review</h2>
+
+<p>Check your details before submitting.</p>
+
+</div>
+
+
+<div class="review">
+
+<p>
+<strong>Package:</strong>
+<span id="rPackage"></span>
+</p>
+
+<p>
+<strong>Location:</strong>
+<span id="rLocation"></span>
+</p>
+
+<p>
+<strong>Distance:</strong>
+<span id="rDistance"></span>
+</p>
+
+<p>
+<strong>Date:</strong>
+<span id="rDate"></span>
+</p>
+
+<p>
+<strong>Duration:</strong>
+<span id="rDuration"></span>
+</p>
+
+<p>
+<strong>Name:</strong>
+<span id="rName"></span>
+</p>
+
+<p>
+<strong>Mobile:</strong>
+<span id="rPhone"></span>
+</p>
+
+<p>
+<strong>Venue:</strong>
+<span id="rAddress"></span>
+</p>
+
+<p>
+<strong>Message:</strong>
+<span id="rMessage"></span>
+</p>
+
+<hr>
+
+<p>
+<strong>Estimated Price:</strong>
+</p>
+
+<div class="final-price">
+₹<span id="rPrice"></span>
+</div>
+
+</div>
+
+
+<!-- FIRST ACTION -->
+
+<button
+class="submit-btn"
+onclick="submitBooking()"
+>
+📩 Submit Booking Request
+</button>
+
+</div>
+
+
+<!-- STEP 6 -->
+
+<div class="step" id="step6">
+
+<div class="success">
+
+<h2>
+✅ Booking Request Submitted
+</h2>
+
+<p>
+Your booking request has been submitted successfully.
+</p>
+
+
+<div class="pending-box">
+
+<strong>
+🟡 Status: Pending
+</strong>
+
+<br><br>
+
+Your request is waiting for admin confirmation.
+
+</div>
+
+
+<!-- WHATSAPP ONLY AFTER SUBMIT -->
+
+<a
+id="whatsappAfterSubmit"
+class="whatsapp-btn"
+href="#"
+target="_blank"
+>
+
+📱 Send Details on WhatsApp
+
+</a>
+
+
+<p class="note">
+
+WhatsApp sharing is optional.
+
+</p>
+
+</div>
+
+</div>
+
+
+</div>
+
+</section>
 
 
 <footer>
-<p>© 2026 Artist Booking</p>
+
+🎵 Live Music Booking 🎶
+<br><br>
+© 2026 All Rights Reserved
+
 </footer>
 
 
 <script>
 
-let bookings =
-JSON.parse(localStorage.getItem("artistBookings")) || [];
+/* =========================
+   VARIABLES
+========================= */
+
+let selectedPackage = "";
+
+let selectedDate = "";
+
+let distanceKm = 0;
+
+let calculatedPrice = 0;
+
+let locationName = "Current Location";
 
 
-/* CUSTOMER SEND REQUEST */
+/* =========================
+   PACKAGE
+========================= */
 
-function sendRequest(){
+function selectPackage(type,element){
 
-    let name =
-    document.getElementById("name").value;
+selectedPackage = type;
 
-    let phone =
-    document.getElementById("phone").value;
+document
+.querySelectorAll(".package")
+.forEach(function(card){
 
-    let date =
-    document.getElementById("date").value;
+card.classList.remove("selected");
 
-    let time =
-    document.getElementById("time").value;
+});
 
-    let location =
-    document.getElementById("location").value;
+element.classList.add("selected");
 
-    if(name === "" || phone === "" || date === "" || location === ""){
+document.getElementById(
+"packageNext"
+).disabled = false;
 
-        alert("Please fill Name, Mobile, Date and Location.");
-
-        return;
-    }
-
-    let booking = {
-
-        id: Date.now(),
-
-        name:name,
-
-        phone:phone,
-
-        event:
-        document.getElementById("eventType").value,
-
-        package:
-        document.getElementById("package").value,
-
-        date:date,
-
-        time:time,
-
-        location:location,
-
-        duration:
-        document.getElementById("duration").value,
-
-        message:
-        document.getElementById("message").value,
-
-        status:"Pending"
-
-    };
-
-    bookings.push(booking);
-
-    localStorage.setItem(
-        "artistBookings",
-        JSON.stringify(bookings)
-    );
-
-    alert(
-        "Booking request sent successfully! 🎉\n\n" +
-        "Your request is Pending approval."
-    );
-
-    document.querySelector("form");
-
-    showRequests();
 }
 
 
-/* ADMIN REQUESTS */
+/* =========================
+   LOCATION PAGE
+========================= */
 
-function showRequests(){
+function goLocation(){
 
-    let box =
-    document.getElementById("requests");
+showStep(2);
 
-    box.innerHTML = "";
-
-    if(bookings.length === 0){
-
-        box.innerHTML =
-        "<p>No booking requests yet.</p>";
-
-        return;
-    }
-
-    bookings.forEach(function(b){
-
-        let div =
-        document.createElement("div");
-
-        div.className = "booking";
-
-        div.innerHTML = `
-
-        <h3>🎤 ${b.name}</h3>
-
-        <p><b>Event:</b> ${b.event}</p>
-
-        <p><b>Package:</b> ${b.package}</p>
-
-        <p><b>Date:</b> ${b.date}</p>
-
-        <p><b>Time:</b> ${b.time}</p>
-
-        <p><b>Duration:</b> ${b.duration}</p>
-
-        <p><b>Location:</b> ${b.location}</p>
-
-        <p><b>Mobile:</b> ${b.phone}</p>
-
-        <p>
-        <b>Status:</b>
-        <span class="status
-        ${getStatusClass(b.status)}">
-        ${b.status}
-        </span>
-        </p>
-
-        <button class="approve"
-        onclick="approveBooking(${b.id})">
-        ✅ Approve Booking
-        </button>
-
-        <button class="reject"
-        onclick="rejectBooking(${b.id})">
-        ❌ Reject Booking
-        </button>
-
-        `;
-
-        box.appendChild(div);
-
-    });
 }
 
 
-/* APPROVE */
+/* =========================
+   LOCATION
+========================= */
 
-function approveBooking(id){
+function getLocation(){
 
-    let booking =
-    bookings.find(b => b.id === id);
+if(!navigator.geolocation){
 
-    if(!booking) return;
+alert(
+"Your browser does not support location."
+);
 
-    booking.status = "Confirmed";
+return;
 
-    localStorage.setItem(
-        "artistBookings",
-        JSON.stringify(bookings)
-    );
-
-    showRequests();
-
-    alert("Booking Approved! ✅");
 }
 
 
-/* REJECT */
+document.getElementById(
+"locationResult"
+).innerHTML =
+"📍 Detecting your location...";
 
-function rejectBooking(id){
 
-    let booking =
-    bookings.find(b => b.id === id);
+navigator.geolocation.getCurrentPosition(
 
-    if(!booking) return;
+async function(position){
 
-    booking.status = "Rejected";
+const lat =
+position.coords.latitude;
 
-    localStorage.setItem(
-        "artistBookings",
-        JSON.stringify(bookings)
-    );
+const lon =
+position.coords.longitude;
 
-    showRequests();
 
-    alert("Booking Rejected.");
+/* Base location */
+
+const baseLat = 32.9166;
+const baseLon = 75.1417;
+
+
+distanceKm =
+calculateDistance(
+baseLat,
+baseLon,
+lat,
+lon
+);
+
+
+calculatedPrice =
+calculatePrice(distanceKm);
+
+
+/* Get city name */
+
+try{
+
+const response =
+await fetch(
+"https://api.bigdatacloud.net/data/reverse-geocode-client?latitude="
++lat+
+"&longitude="
++lon+
+"&localityLanguage=en"
+);
+
+const data =
+await response.json();
+
+locationName =
+data.city ||
+data.locality ||
+"Current Location";
+
+}
+
+catch(error){
+
+locationName =
+"Current GPS Location";
+
 }
 
 
-/* STATUS STYLE */
+document.getElementById(
+"locationResult"
+).innerHTML = `
 
-function getStatusClass(status){
+<div class="location-name">
+📍 ${locationName}
+</div>
 
-    if(status === "Confirmed")
-        return "confirmed";
+<div>
+Distance:
+<b>${distanceKm.toFixed(1)} km</b>
+</div>
 
-    if(status === "Rejected")
-        return "rejected";
+<div class="estimated">
+Estimated Price:
+₹${calculatedPrice.toLocaleString("en-IN")}
+</div>
 
-    return "pending";
+`;
+
+
+document.getElementById(
+"locationNext"
+).disabled = false;
+
+},
+
+function(){
+
+document.getElementById(
+"locationResult"
+).innerHTML =
+"❌ Please allow location permission and try again.";
+
+},
+
+{
+enableHighAccuracy:true,
+timeout:15000,
+maximumAge:0
+}
+
+);
+
+}
+
+
+/* =========================
+   DISTANCE
+========================= */
+
+function calculateDistance(
+lat1,
+lon1,
+lat2,
+lon2
+){
+
+const R = 6371;
+
+const dLat =
+(lat2-lat1)
+*Math.PI/180;
+
+const dLon =
+(lon2-lon1)
+*Math.PI/180;
+
+const a =
+Math.sin(dLat/2)**2
++
+Math.cos(lat1*Math.PI/180)
+*
+Math.cos(lat2*Math.PI/180)
+*
+Math.sin(dLon/2)**2;
+
+const c =
+2*Math.atan2(
+Math.sqrt(a),
+Math.sqrt(1-a)
+);
+
+return R*c;
+
+}
+
+
+/* =========================
+   PRICE
+========================= */
+
+function calculatePrice(distance){
+
+let price;
+
+
+if(selectedPackage === "singer"){
+
+if(distance <= 35){
+
+price = 20000;
+
+}
+else if(distance <= 100){
+
+price = 25000;
+
+}
+else{
+
+price =
+Math.round(
+25000 *
+Math.pow(
+1.10,
+Math.ceil(
+(distance-100)/100
+)
+)
+);
+
+}
+
+}
+
+else{
+
+if(distance <= 35){
+
+price = 60000;
+
+}
+else if(distance <= 100){
+
+price = 90000;
+
+}
+else{
+
+price =
+Math.round(
+90000 *
+Math.pow(
+1.10,
+Math.ceil(
+(distance-100)/100
+)
+)
+);
+
+}
+
+}
+
+
+return Math.min(price,200000);
+
+}
+
+
+/* =========================
+   CALENDAR
+========================= */
+
+let currentMonth =
+new Date();
+
+
+const bookedDates = [];
+
+const pendingDates = [];
+
+
+function renderCalendar(){
+
+const calendar =
+document.getElementById(
+"calendar"
+);
+
+calendar.innerHTML = "";
+
+
+const year =
+currentMonth.getFullYear();
+
+const month =
+currentMonth.getMonth();
+
+
+const firstDay =
+new Date(
+year,
+month,
+1
+).getDay();
+
+
+const totalDays =
+new Date(
+year,
+month+1,
+0
+).getDate();
+
+
+document.getElementById(
+"monthYear"
+).innerText =
+currentMonth.toLocaleString(
+"default",
+{
+month:"long"
+}
+)
++" "
++year;
+
+
+/* Empty days */
+
+for(
+let i=0;
+i<firstDay;
+i++
+){
+
+const empty =
+document.createElement("div");
+
+empty.className =
+"day";
+
+empty.style.visibility =
+"hidden";
+
+calendar.appendChild(empty);
+
+}
+
+
+/* Actual dates */
+
+for(
+let day=1;
+day<=totalDays;
+day++
+){
+
+const dateString =
+year
++"-"
++String(month+1).padStart(2,"0")
++"-"
++String(day).padStart(2,"0");
+
+
+const div =
+document.createElement("div");
+
+
+div.innerHTML =
+"<strong>"
++day+
+"</strong>";
+
+
+if(
+bookedDates.includes(
+dateString
+)
+){
+
+div.className =
+"day booked";
+
+div.innerHTML +=
+"<span class='status'>🔴 Booked</span>";
+
+}
+
+else if(
+pendingDates.includes(
+dateString
+)
+){
+
+div.className =
+"day pending";
+
+div.innerHTML +=
+"<span class='status'>🟡 Pending</span>";
+
+}
+
+else{
+
+div.className =
+"day available";
+
+div.innerHTML +=
+"<span class='status'>🟢 Available</span>";
+
+
+div.onclick =
+function(){
+
+selectedDate =
+dateString;
+
+
+document
+.querySelectorAll(".day")
+.forEach(function(d){
+
+d.classList.remove(
+"selected"
+);
+
+});
+
+
+div.classList.add(
+"selected"
+);
+
+};
+
+}
+
+
+calendar.appendChild(div);
+
+}
+
+}
+
+
+function changeMonth(amount){
+
+currentMonth.setMonth(
+currentMonth.getMonth()+amount
+);
+
+renderCalendar();
+
+}
+
+
+renderCalendar();
+
+
+/* =========================
+   CALENDAR NEXT
+========================= */
+
+function goCalendar(){
+
+showStep(3);
+
+}
+
+
+function goDetails(){
+
+if(!selectedDate){
+
+alert(
+"Please select an available date."
+);
+
+return;
+
+}
+
+showStep(4);
+
+}
+
+
+/* =========================
+   REVIEW
+========================= */
+
+function goReview(){
+
+const name =
+document.getElementById(
+"customerName"
+).value.trim();
+
+const phone =
+document.getElementById(
+"phone"
+).value.trim();
+
+const address =
+document.getElementById(
+"eventAddress"
+).value.trim();
+
+const duration =
+document.getElementById(
+"duration"
+).value;
+
+const message =
+document.getElementById(
+"message"
+).value.trim();
+
+
+if(
+!name ||
+!phone ||
+!address ||
+!duration
+){
+
+alert(
+"Please fill all required details."
+);
+
+return;
+
+}
+
+
+document.getElementById(
+"rPackage"
+).innerText =
+selectedPackage === "singer"
+?
+"🎤 Only Singer"
+:
+"🎵 Singer + Full Music Team 🎶";
+
+
+document.getElementById(
+"rLocation"
+).innerText =
+locationName;
+
+
+document.getElementById(
+"rDistance"
+).innerText =
+distanceKm.toFixed(1)
++" km";
+
+
+document.getElementById(
+"rDate"
+).innerText =
+selectedDate;
+
+
+document.getElementById(
+"rDuration"
+).innerText =
+duration;
+
+
+document.getElementById(
+"rName"
+).innerText =
+name;
+
+
+document.getElementById(
+"rPhone"
+).innerText =
+phone;
+
+
+document.getElementById(
+"rAddress"
+).innerText =
+address;
+
+
+document.getElementById(
+"rMessage"
+).innerText =
+message || "None";
+
+
+document.getElementById(
+"rPrice"
+).innerText =
+calculatedPrice.toLocaleString(
+"en-IN"
+);
+
+
+showStep(5);
+
+}
+
+
+/* =========================
+   SUBMIT REQUEST
+========================= */
+
+function submitBooking(){
+
+const name =
+document.getElementById(
+"customerName"
+).value.trim();
+
+const phone =
+document.getElementById(
+"phone"
+).value.trim();
+
+const address =
+document.getElementById(
+"eventAddress"
+).value.trim();
+
+const duration =
+document.getElementById(
+"duration"
+).value;
+
+const message =
+document.getElementById(
+"message"
+).value.trim();
+
+
+const packageName =
+selectedPackage === "singer"
+?
+"🎤 Only Singer"
+:
+"🎵 Singer + Full Music Team 🎶";
+
+
+/*
+Create WhatsApp message.
+Button is NOT shown until
+this function is called.
+*/
+
+const whatsappMessage =
+
+`Hello, I have submitted a booking request.
+
+🎵 Package:
+${packageName}
+
+📍 Location:
+${locationName}
+
+📏 Distance:
+${distanceKm.toFixed(1)} km
+
+📅 Event Date:
+${selectedDate}
+
+⏰ Duration:
+${duration}
+
+💰 Estimated Price:
+₹${calculatedPrice.toLocaleString("en-IN")}
+
+👤 Name:
+${name}
+
+📱 Mobile:
+${phone}
+
+🏠 Venue:
+${address}
+
+📝 Message:
+${message || "None"}
+
+🟡 Booking Status:
+Pending`;
+
+
+/*
+Your business WhatsApp number
+*/
+
+const businessWhatsApp =
+"919186238494";
+
+
+document.getElementById(
+"whatsappAfterSubmit"
+).href =
+"https://wa.me/"
++businessWhatsApp
++"?text="
++encodeURIComponent(
+whatsappMessage
+);
+
+
+/*
+NOW go to next page
+*/
+
+showStep(6);
+
+}
+
+
+/* =========================
+   STEP SYSTEM
+========================= */
+
+function showStep(number){
+
+document
+.querySelectorAll(".step")
+.forEach(function(step){
+
+step.classList.remove(
+"active"
+);
+
+});
+
+
+document.getElementById(
+"step"+number
+).classList.add(
+"active"
+);
+
+
+window.scrollTo({
+
+top:
+document.getElementById(
+"booking"
+).offsetTop-30,
+
+behavior:"smooth"
+
+});
+
 }
 
 </script>
